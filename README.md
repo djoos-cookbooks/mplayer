@@ -11,7 +11,7 @@ Requirements
 
 ## Cookbooks:
 
-This cookbook doesn't have direct dependencies on other cookbooks.
+* build-essential
 
 ## Platforms:
 
@@ -25,7 +25,7 @@ Attributes
 * `node['mplayer']['prefix']` - Location prefix of where the installation files will go if installing via ':source'
 * `node['mplayer']['svn_repository']` - Location of the source subversion repository if installing via ':source'
 * `node['mplayer']['svn_revision']` - Revision of the subversion repository to install if installing via ':source'
-* `node['mplayer']['compile_flags']` - Array of flags to use in compilation process if installing via ':source'. MPlayer will be recompiled if this attribute is modified after initial compilation.
+* `node['mplayer']['compile_flags']` - Array of flags to use in compilation process if installing via ':source'
 
 Usage
 =====
