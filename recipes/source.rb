@@ -13,13 +13,6 @@ package "subversion" do
 	action :install
 end
 
-#purge potentially existing package install
-mplayer_packages.each do |pkg|
-	package pkg do
-		action :purge
-	end
-end
-
 subversion "mplayer" do
 	repository node[:mplayer][:svn_repository]
 	revision node[:mplayer][:svn_revision]
@@ -41,6 +34,11 @@ template "#{Chef::Config[:file_cache_path]}/mplayer-compiled_with_flags" do
 	notifies :run, "bash[compile_mplayer]"
 end
 
+execute "copy_midentify" do
+	command "cp #{Chef::Config[:file_cache_path]}/mplayer/TOOLS/midentify.sh #{node[:mplayer][:prefix]}/bin/"
+	action :nothing
+end
+
 bash "compile_mplayer" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer"
 	code <<-EOH
@@ -48,11 +46,5 @@ bash "compile_mplayer" do
 		make clean && make && make install
 	EOH
 	creates "#{node[:mplayer][:prefix]}/bin/mplayer"
-	notifies :run, "bash[copy_midentify]"
-end
-
-#copy midentify.sh to a location within the executable path
-execute "copy_midentify" do
-	command "cp #{Chef::Config[:file_cache_path]}/mplayer/TOOLS/midentify.sh /usr/local/bin/"
-	action :nothing
+	notifies :run, resources(:execute => "copy_midentify")
 end
