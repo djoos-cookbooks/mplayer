@@ -34,11 +34,6 @@ template "#{Chef::Config[:file_cache_path]}/mplayer-compiled_with_flags" do
 	notifies :run, "bash[compile_mplayer]"
 end
 
-execute "copy_midentify" do
-	command "cp #{Chef::Config[:file_cache_path]}/mplayer/TOOLS/midentify.sh #{node[:mplayer][:prefix]}/bin/"
-	action :nothing
-end
-
 bash "compile_mplayer" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer"
 	code <<-EOH
@@ -46,5 +41,13 @@ bash "compile_mplayer" do
 		make clean && make && make install
 	EOH
 	creates "#{node[:mplayer][:prefix]}/bin/mplayer"
-	notifies :run, resources(:execute => "copy_midentify")
+	notifies :run, "bash[copy_midentify]"
+end
+
+bash "copy_midentify" do
+	cwd "#{Chef::Config[:file_cache_path]}/mplayer/TOOLS"
+	code <<-EOH
+		cp midentify.sh #{node[:mplayer][:prefix]}/bin
+	EOH
+	creates "#{node[:mplayer][:prefix]}/bin/midentify.sh"
 end
