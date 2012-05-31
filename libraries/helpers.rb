@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef-mplayer
+# Cookbook Name:: mplayer
 # Library:: helpers
 #
 # Copyright 2012, Escape Studios

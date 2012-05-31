@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef-mplayer
+# Cookbook Name:: mplayer
 # Recipe:: source
 #
 # Copyright 2012, Escape Studios
@@ -37,17 +37,15 @@ end
 bash "compile_mplayer" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer"
 	code <<-EOH
-		./configure --prefix=#{node[:mplayer][:prefix]} #{node[:mplayer][:compile_flags].join(' ')}
+		./configure #{node[:mplayer][:compile_flags].join(' ')}
 		make clean && make && make install
 	EOH
-	creates "#{node[:mplayer][:prefix]}/bin/mplayer"
 	notifies :run, "bash[copy_midentify]"
 end
 
 bash "copy_midentify" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer/TOOLS"
 	code <<-EOH
-		cp midentify.sh #{node[:mplayer][:prefix]}/bin
+		cp midentify.sh /usr/local/bin
 	EOH
-	creates "#{node[:mplayer][:prefix]}/bin/midentify.sh"
 end

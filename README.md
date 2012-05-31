@@ -22,7 +22,6 @@ Attributes
 ==========
 
 * `node['mplayer']['install_method']` - Installation method, ':source' or ':package' - default ':source'
-* `node['mplayer']['prefix']` - Location prefix of where the installation files will go if installing via ':source'
 * `node['mplayer']['svn_repository']` - Location of the source subversion repository if installing via ':source'
 * `node['mplayer']['svn_revision']` - Revision of the subversion repository to install if installing via ':source'
 * `node['mplayer']['compile_flags']` - Array of flags to use in compilation process if installing via ':source'
@@ -30,7 +29,7 @@ Attributes
 Usage
 =====
 
-1) include `recipe[chef-mplayer]` in a run list
+1) include `recipe[mplayer]` in a run list
 2) tweak the attributes via attributes/default.rb
 	--- OR ---
 	override the attribute on a higher level (http://wiki.opscode.com/display/chef/Attributes#Attributes-AttributesPrecedence)
