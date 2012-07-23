@@ -13,6 +13,11 @@ package "subversion" do
 	action :install
 end
 
+#install yasm
+package "yasm" do
+	action :install
+end
+
 subversion "mplayer" do
 	repository node[:mplayer][:svn_repository]
 	revision node[:mplayer][:svn_revision]
