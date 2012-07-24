@@ -8,14 +8,12 @@
 include_recipe "build-essential"
 #include_recipe "subversion"
 
-#install subversion
 package "subversion" do
-	action :install
+	action :upgrade
 end
 
-#install yasm
 package "yasm" do
-	action :install
+	action :upgrade
 end
 
 subversion "mplayer" do
@@ -42,15 +40,17 @@ end
 bash "compile_mplayer" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer"
 	code <<-EOH
-		./configure #{node[:mplayer][:compile_flags].join(' ')}
+		./configure --prefix=#{node[:mplayer][:prefix]} #{node[:mplayer][:compile_flags].join(' ')}
 		make clean && make && make install
 	EOH
 	notifies :run, "bash[copy_midentify]"
+	action :nothing
 end
 
 bash "copy_midentify" do
 	cwd "#{Chef::Config[:file_cache_path]}/mplayer/TOOLS"
 	code <<-EOH
-		cp midentify.sh /usr/local/bin
+		cp midentify.sh #{node[:mplayer][:prefix]}/bin
 	EOH
+	action :nothing
 end

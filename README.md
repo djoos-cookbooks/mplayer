@@ -22,6 +22,7 @@ Attributes
 ==========
 
 * `node['mplayer']['install_method']` - Installation method, ':source' or ':package' - default ':source'
+* `node['mplayer']['prefix']` - Location prefix of where the installation files will go if installing via ':source'
 * `node['mplayer']['svn_repository']` - Location of the source subversion repository if installing via ':source'
 * `node['mplayer']['svn_revision']` - Revision of the subversion repository to install if installing via ':source'
 * `node['mplayer']['compile_flags']` - Array of flags to use in compilation process if installing via ':source'
@@ -38,6 +39,17 @@ References
 ==========
 
 * [MPlayer home page] (http://www.mplayerhq.hu)
+
+CHANGELOG :
+===========
+
+### 0.0.3
+	* additional prefix-attribute
+    * don't run compilation more than necessary
+    * upgrade subversion & yasm package
+
+### 0.0.2
+    * Install YASM package
 
 License and Authors
 ===================
