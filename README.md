@@ -40,8 +40,8 @@ References
 
 * [MPlayer home page] (http://www.mplayerhq.hu)
 
-CHANGELOG :
-===========
+Changelog
+=========
 
 ### 0.0.4
     * only run compilation when creates file is not present
