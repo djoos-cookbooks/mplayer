@@ -26,7 +26,7 @@ subversion "mplayer" do
 	revision node[:mplayer][:svn_revision]
 	destination "#{Chef::Config[:file_cache_path]}/mplayer"
 	action :sync
-	notifies :delete, "file[#{creates_mplayer}]"
+	notifies :delete, "file[#{creates_mplayer}]", :immediately
 end
 
 #write the flags used to compile to disk
@@ -38,7 +38,7 @@ template "#{Chef::Config[:file_cache_path]}/mplayer-compiled_with_flags" do
 	variables(
 		:compile_flags => node[:mplayer][:compile_flags]
 	)
-	notifies :delete, "file[#{creates_mplayer}]"
+	notifies :delete, "file[#{creates_mplayer}]", :immediately
 end
 
 bash "compile_mplayer" do
@@ -48,7 +48,7 @@ bash "compile_mplayer" do
 		make clean && make && make install
 	EOH
 	creates "#{creates_mplayer}"
-	notifies :delete, "file[#{creates_midentify}]"
+	notifies :delete, "file[#{creates_midentify}]", :immediately
 end
 
 bash "copy_midentify" do
