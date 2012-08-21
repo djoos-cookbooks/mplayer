@@ -3,9 +3,12 @@ maintainer_email "dev@escapestudios.com"
 license          "MIT"
 description      "Installs/Configures mplayer"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.3"
+version          "0.0.4"
 
-supports "ubuntu", "10.04"
+supports "ubuntu"
+supports "debian"
 
 depends "build-essential"
-#depends "subversion"
+depends "yasm"
+depends "subversion"
+depends "git"

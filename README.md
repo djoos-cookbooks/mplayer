@@ -43,13 +43,19 @@ References
 CHANGELOG :
 ===========
 
+### 0.0.4
+    * only run compilation when creates file is not present
+    * delete creates file when new source is available and/or compile flags have changed
+    * make use of subversion cookbook
+    * make use of yasm cookbook
+
 ### 0.0.3
 	* additional prefix-attribute
     * don't run compilation more than necessary
     * upgrade subversion & yasm package
 
 ### 0.0.2
-    * Install YASM package
+    * install YASM package
 
 License and Authors
 ===================

@@ -6,14 +6,19 @@
 #
 
 include_recipe "build-essential"
-#include_recipe "subversion"
+include_recipe "subversion" #mplayer checkout
+include_recipe "git" #ffmpeg checkout
+include_recipe "yasm"
 
-package "subversion" do
-	action :upgrade
+creates_mplayer = "#{node[:mplayer][:prefix]}/bin/mplayer"
+creates_midentify = "#{node[:mplayer][:prefix]}/bin/midentify.sh"
+
+file "#{creates_mplayer}" do
+	action :nothing
 end
 
-package "yasm" do
-	action :upgrade
+file "#{creates_midentify}" do
+	action :nothing
 end
 
 subversion "mplayer" do
@@ -21,11 +26,10 @@ subversion "mplayer" do
 	revision node[:mplayer][:svn_revision]
 	destination "#{Chef::Config[:file_cache_path]}/mplayer"
 	action :sync
-	notifies :run, "bash[compile_mplayer]"
+	notifies :delete, "file[#{creates_mplayer}]"
 end
 
-#Write the flags used to compile the application to disk. If the flags
-#do not match those that are in the compiled_flags attribute - we recompile
+#write the flags used to compile to disk
 template "#{Chef::Config[:file_cache_path]}/mplayer-compiled_with_flags" do
 	source "compiled_with_flags.erb"
 	owner "root"
@@ -34,7 +38,7 @@ template "#{Chef::Config[:file_cache_path]}/mplayer-compiled_with_flags" do
 	variables(
 		:compile_flags => node[:mplayer][:compile_flags]
 	)
-	notifies :run, "bash[compile_mplayer]"
+	notifies :delete, "file[#{creates_mplayer}]"
 end
 
 bash "compile_mplayer" do
@@ -43,8 +47,8 @@ bash "compile_mplayer" do
 		./configure --prefix=#{node[:mplayer][:prefix]} #{node[:mplayer][:compile_flags].join(' ')}
 		make clean && make && make install
 	EOH
-	notifies :run, "bash[copy_midentify]"
-	action :nothing
+	creates "#{creates_mplayer}"
+	notifies :delete, "file[#{creates_midentify}]"
 end
 
 bash "copy_midentify" do
@@ -52,5 +56,5 @@ bash "copy_midentify" do
 	code <<-EOH
 		cp midentify.sh #{node[:mplayer][:prefix]}/bin
 	EOH
-	action :nothing
+	creates "#{creates_midentify}"
 end
