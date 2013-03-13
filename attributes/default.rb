@@ -2,7 +2,7 @@
 # Cookbook Name:: mplayer
 # Attributes:: default
 #
-# Copyright 2012, Escape Studios
+# Copyright 2012-2013, Escape Studios
 #
 
 default[:mplayer][:install_method] = :source
