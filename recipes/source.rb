@@ -10,6 +10,13 @@ include_recipe 'subversion' # mplayer checkout
 include_recipe 'git' # ffmpeg checkout
 include_recipe 'yasm'
 
+mplayer_packages.each do |pkg|
+  package pkg do
+    action :purge
+    ignore_failure true
+  end
+end
+
 creates_mplayer = "#{node[:mplayer][:prefix]}/bin/mplayer"
 creates_midentify = "#{node[:mplayer][:prefix]}/bin/midentify.sh"
 
